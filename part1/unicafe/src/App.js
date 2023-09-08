@@ -29,7 +29,7 @@ const Statistics = (props) => {
           <StatisticLine text='Bad' value={props.bad}/>
           <StatisticLine text='All' value={all}/>
           <StatisticLine text='Average' value={average}/>
-          <StatisticLine text='Positive' value={positive}/>
+          <StatisticLine text='Positive' value={positive + ' %'}/>
       </tbody>
     </table>
   )
