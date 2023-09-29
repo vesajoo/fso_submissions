@@ -4,7 +4,7 @@ const Course = ({course}) => {
     }, 0)
     return (
         <div>
-            <h1>{course.name}</h1>
+            <h3>{course.name}</h3>
             <ul>
                 {course.parts.map(part =>
                     <li key={part.id}>
@@ -15,5 +15,4 @@ const Course = ({course}) => {
         </div>
     )
 }
-
 export default Course
