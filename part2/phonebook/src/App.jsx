@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import Notification from './components/Notification'
 import Person from './components/Person'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
@@ -10,6 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [style, setStyle] = useState('notification')
 
   useEffect(() => {
     personService
@@ -30,8 +32,15 @@ const App = () => {
         .create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setStyle('notification')
+          setNotificationMessage(
+            `Added ${newName}`
+          )
           setNewName('')
           setNewNumber('')
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
         })
     }
   }
@@ -81,6 +90,16 @@ const App = () => {
         .then(response => {
             setPersons(persons.filter(n => n.id !== id))
           })
+        .catch(error => {
+          setStyle('error')
+          setNotificationMessage(
+            `Information of ${name} has already been removed from server`
+          )
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)
+          setPersons(persons.filter(n => n.id !== id))
+        })
     }
   }
 
@@ -88,6 +107,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} style={style} />
       <Filter filter={filter} handleFilter={handleFilter}/>
       <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
